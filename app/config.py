@@ -32,7 +32,7 @@ class Settings:
             # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
             raise e
 
-        secret = get_secret_value_response['OPENAI_API_KEY']
+        secret = get_secret_value_response['SecretString']
         secret_dict = json.loads(secret)
 
         # Set the secret value as an environment variable
