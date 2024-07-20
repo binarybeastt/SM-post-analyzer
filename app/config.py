@@ -36,7 +36,7 @@ class Settings:
         secret_dict = json.loads(secret)
 
         # Set the secret value as an environment variable
-        os.environ['OPENAI_API_KEY'] = secret_dict['api_key']
+        os.environ['OPENAI_API_KEY'] = secret_dict['OPENAI_API_KEY']
 
 settings = Settings()
 
