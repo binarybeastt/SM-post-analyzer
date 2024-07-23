@@ -42,7 +42,7 @@ def generate_analysis(data: dict, degree: str) -> str:
     Data: {filtered_data}
     """
 
-    completion = client.ChatCompletion.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a social media analyst, skilled in evaluating social media posts."},
