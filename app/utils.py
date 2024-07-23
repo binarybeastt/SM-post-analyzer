@@ -50,5 +50,5 @@ def generate_analysis(data: dict, degree: str) -> str:
         ]
     )
     
-    response = completion.choices[0].message['content']
+    response = completion.choices[0].message.content
     return response
