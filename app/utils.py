@@ -39,6 +39,7 @@ def generate_analysis(data: dict, degree: str) -> str:
     prompt = f"""
     Analyze the provided data about a social media post and {objective}.
     Only use the data provided below for your analysis, don't talk about any other data if it's not provided. The comment should be concise and limited to 2 to 3 sentences.
+    When explaining, avoid stating the figures explicitly. Instead, describe the performance in qualitative terms.
     Data: {filtered_data}
     """
 
