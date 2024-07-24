@@ -34,10 +34,10 @@ def generate_analysis(data: dict, degree: str) -> str:
     if degree == 'excellent':
         objective = "explain why this excellent post performs better than other posts, don't suggest how it can be improved"
     else:
-        objective = "explain why this post is not creating an impact or audience, focusing on the main forms of engagement: engagement, engagement rate, shares, likes, comments, and retweets/bookmarks for Twitter"
+        objective = "explain why this post is not creating an impact or audience, and suggest how it can be improved upon."
 
     prompt = f"""
-    Analyze the provided data about a social media post and {objective}.
+    Analyze the provided data about a social media post from {platform} and {objective}.
     Only use the data provided below for your analysis, don't talk about any other data if it's not provided. The comment should be concise and limited to 2 to 3 sentences.
     When explaining, avoid stating the figures explicitly. Instead, describe the performance in qualitative terms, take note of the terms, some terms are exclusive to different social media platforms
     for example, don't use the term retweet when talking about instagram, that's only for twitter.
