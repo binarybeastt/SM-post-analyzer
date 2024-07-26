@@ -41,7 +41,7 @@ def generate_analysis(data: dict, degree: str) -> str:
             pass  # If conversion fails, leave the engagement rate as it is
 
     if degree == 'excellent':
-        objective = "explain why this post performs better than other posts, focusing on high engagement rate or other positive metrics. The analysis should provide reasons such as engaging content, captivating media, or effective calls to action."
+        objective = "explain why this post performs better than other posts, focusing on high engagement rate or other positive metrics. The analysis should provide reasons such as engaging content, captivating media."
     elif degree == 'good':
         objective = "explain why this post is performing well but could still be improved. The analysis should point out strengths and suggest minor adjustments to boost performance."
     else:
