@@ -31,8 +31,14 @@ def generate_analysis(data: dict, degree: str) -> str:
     keys = relevant_keys.get(platform, [])
     filtered_data = {k: v for k, v in data.items() if k in keys and v not in [None, "", 0, "0"]}
     
+    # Adjust the engagement rate if it is a decimal
+    if 'Engagement Rate' in filtered_data and filtered_data['Engagement Rate'] < 1:
+        filtered_data['Engagement Rate'] *= 100
+
     if degree == 'excellent':
-        objective = "explain why this excellent post performs better than other posts, don't suggest how it can be improved"
+        objective = "explain why this post performs better than other posts, focusing on high engagement rate or other positive metrics. The analysis should provide reasons such as engaging content, captivating media, or effective calls to action."
+    elif degree == 'good':
+        objective = "explain why this post is performing well but could still be improved. The analysis should point out strengths and suggest minor adjustments to boost performance."
     else:
         objective = "explain why this post is not creating an impact or audience, and suggest how it can be improved upon."
 
@@ -54,3 +60,4 @@ def generate_analysis(data: dict, degree: str) -> str:
     
     response = completion.choices[0].message.content
     return response
+
