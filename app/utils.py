@@ -32,8 +32,13 @@ def generate_analysis(data: dict, degree: str) -> str:
     filtered_data = {k: v for k, v in data.items() if k in keys and v not in [None, "", 0, "0"]}
     
     # Adjust the engagement rate if it is a decimal
-    if 'Engagement Rate' in filtered_data and filtered_data['Engagement Rate'] < 1:
-        filtered_data['Engagement Rate'] *= 100
+    if 'Engagement Rate' in filtered_data:
+        try:
+            engagement_rate = float(filtered_data['Engagement Rate'])
+            if engagement_rate < 1:
+                filtered_data['Engagement Rate'] = engagement_rate * 100
+        except ValueError:
+            pass  # If conversion fails, leave the engagement rate as it is
 
     if degree == 'excellent':
         objective = "explain why this post performs better than other posts, focusing on high engagement rate or other positive metrics. The analysis should provide reasons such as engaging content, captivating media, or effective calls to action."
