@@ -3,6 +3,11 @@ from openai import OpenAI
 from app.config import settings
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
+comparison_files = {
+    'excellent': 'excellentPosts.json',
+    'good': 'goodPosts.json',
+    'average': 'averagePosts.json'
+}
 
 def load_json(file_path: str) -> dict:
     with open(file_path, 'r', encoding='utf-8') as file:
