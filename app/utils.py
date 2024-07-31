@@ -14,8 +14,10 @@ def preprocess_data(data: dict) -> dict:
     return {k: v for k, v in data.items() if v not in [None, "", 0, "0"]}
 
 def preprocess_data_list(data_list: list) -> list:
-    """Preprocess a list of dictionaries to keep only non-empty keys in each dictionary."""
-    return [preprocess_data(data) for data in data_list]
+    """Preprocess a list of dictionaries to keep only non-empty keys in each dictionary, 
+       and limit the list to the first two dictionaries."""
+    preprocessed_data = [preprocess_data(data) for data in data_list]
+    return preprocessed_data[:2]  # Keep only the first two dictionaries
 
 def generate_analysis(data: dict, degree: str, comparison_files: dict) -> str:
     # Preprocess the input data to keep only non-empty keys
@@ -36,7 +38,7 @@ def generate_analysis(data: dict, degree: str, comparison_files: dict) -> str:
     else:
         comparison_file = comparison_files['excellent']
     
-    # Load and preprocess comparison data
+    # Load and preprocess comparison data, limiting to the first two dictionaries
     comparison_data_list = preprocess_data_list(load_json(comparison_file))
     comparative_data_str = "\n".join([f"Post {i+1}: {post}" for i, post in enumerate(comparison_data_list)])
 
@@ -61,7 +63,7 @@ def generate_analysis(data: dict, degree: str, comparison_files: dict) -> str:
     """
 
     completion = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are a social media analyst, skilled in evaluating social media posts."},
             {"role": "user", "content": prompt}
