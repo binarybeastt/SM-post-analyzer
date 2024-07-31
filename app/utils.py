@@ -3,13 +3,8 @@ from openai import OpenAI
 from app.config import settings
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
-comparison_files = {
-    'excellent': 'excellentPosts.json',
-    'good': 'goodPosts.json',
-    'average': 'averagePosts.json'
-}
 
-def load_json(file_path: str) -> dict:
+def load_json(file_path: str) -> list:
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return data
@@ -18,8 +13,12 @@ def preprocess_data(data: dict) -> dict:
     """Preprocess the data to keep only non-empty keys."""
     return {k: v for k, v in data.items() if v not in [None, "", 0, "0"]}
 
+def preprocess_data_list(data_list: list) -> list:
+    """Preprocess a list of dictionaries to keep only non-empty keys in each dictionary."""
+    return [preprocess_data(data) for data in data_list]
+
 def generate_analysis(data: dict, degree: str, comparison_files: dict) -> str:
-    # Preprocess the data to keep only non-empty keys
+    # Preprocess the input data to keep only non-empty keys
     filtered_data = preprocess_data(data)
     
     # Adjust the engagement rate if it is a decimal
@@ -38,8 +37,8 @@ def generate_analysis(data: dict, degree: str, comparison_files: dict) -> str:
         comparison_file = comparison_files['excellent']
     
     # Load and preprocess comparison data
-    comparison_data = preprocess_data(load_json(comparison_file))
-    comparative_data_str = f"Post 1: {comparison_data}"
+    comparison_data_list = preprocess_data_list(load_json(comparison_file))
+    comparative_data_str = "\n".join([f"Post {i+1}: {post}" for i, post in enumerate(comparison_data_list)])
 
     if degree == 'excellent':
         objective = ("explain why this post performs better than other posts in the average category, focusing on high engagement rate or other positive metrics. "
