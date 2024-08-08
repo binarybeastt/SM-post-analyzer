@@ -1,7 +1,11 @@
 import json
 from openai import OpenAI
 from app.config import settings
-
+comparison_files = {
+    'excellent': 'excellentPosts.json',
+    'good': 'goodPosts.json',
+    'average': 'averagePosts.json'
+}
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 def load_json(file_path: str) -> list:
@@ -100,7 +104,7 @@ def compare_multiple_posts(posts: list, degrees: list) -> str:
     analyses = []
     
     for post, degree in zip(preprocessed_posts, degrees):
-        analysis = generate_analysis(post, degree)
+        analysis = generate_analysis(post, degree, comparison_files=comparison_files)
         analyses.append(analysis)
     
     comparative_summary = generate_comparative_summary(analyses)
