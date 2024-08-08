@@ -72,3 +72,38 @@ def generate_analysis(data: dict, degree: str, comparison_files: dict) -> str:
     
     response = completion.choices[0].message.content
     return response
+
+def generate_comparative_summary(analyses: list) -> str:
+    summaries_str = "\n".join([f"Post {i+1}: {summary}" for i, summary in enumerate(analyses)])
+
+    prompt = f"""
+    Compare the following social media post analyses and provide a comparative summary.
+    Highlight the key strengths and weaknesses of each post and give an overall assessment of which posts perform best and which perform worst. The summary should be concise and limited to 2 to 3 sentences.
+    
+    Summaries:
+    {summaries_str}
+    """
+
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a social media analyst, skilled in evaluating social media posts."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+    
+    response = completion.choices[0].message.content
+    return response
+
+def compare_multiple_posts(posts: list, degrees: list) -> str:
+    preprocessed_posts = preprocess_data_list(posts)
+    analyses = []
+    
+    for post, degree in zip(preprocessed_posts, degrees):
+        analysis = generate_analysis(post, degree)
+        analyses.append(analysis)
+    
+    comparative_summary = generate_comparative_summary(analyses)
+    
+    return comparative_summary
+
